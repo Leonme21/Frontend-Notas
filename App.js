@@ -1,8 +1,8 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Ionicons } from '@expo/vector-icons'; // Usaremos iconos para que se vea mejor
 
-// Importación de pantallas
 import ConsultaScreen from './src/screens/ConsultaScreen';
 import RegistroEstudianteScreen from './src/screens/RegistroEstudianteScreen';
 import RegistroNotaScreen from './src/screens/RegistroNotaScreen';
@@ -13,24 +13,44 @@ export default function App() {
   return (
     <NavigationContainer>
       <Tab.Navigator
-        screenOptions={{
-          headerShown: false, // Ocultar el título de arriba
-          tabBarStyle: { 
-            backgroundColor: '#000', 
-            height: 80, 
-            borderTopWidth: 0,
-            paddingBottom: 20
+        screenOptions={({ route }) => ({
+          // Configuración de Iconos
+          tabBarIcon: ({ focused, color, size }) => {
+            let iconName;
+            if (route.name === 'Consulta') {
+              iconName = focused ? 'search' : 'search-outline';
+            } else if (route.name === 'Reg. Estud') {
+              iconName = focused ? 'person-add' : 'person-add-outline';
+            } else if (route.name === 'Reg. Nota') {
+              iconName = focused ? 'create' : 'create-outline';
+            }
+            return <Ionicons name={iconName} size={size} color={color} />;
           },
-          tabBarActiveBackgroundColor: '#4a2323', // Color rojizo oscuro para el botón activo según mockup
-          tabBarInactiveTintColor: '#fff',
-          tabBarActiveTintColor: '#fff',
-          tabBarLabelStyle: { fontSize: 14, fontWeight: 'bold' },
-          tabBarIconStyle: { display: 'none' } // En el mockup no hay iconos, solo texto
-        }}
+          // Estilo General de la Barra
+          tabBarActiveTintColor: '#38bdf8',
+          tabBarInactiveTintColor: '#94a3b8',
+          headerShown: false,
+          tabBarStyle: {
+            backgroundColor: '#1e293b',
+            borderTopWidth: 0,
+            height: 70,
+            paddingBottom: 12,
+            paddingTop: 8,
+            elevation: 20,
+            shadowColor: '#000',
+            shadowOffset: { width: 0, height: -4 },
+            shadowOpacity: 0.2,
+            shadowRadius: 10,
+          },
+          tabBarLabelStyle: {
+            fontSize: 12,
+            fontWeight: 'bold',
+          },
+        })}
       >
-        <Tab.Screen name="consulta" component={ConsultaScreen} />
-        <Tab.Screen name="reg. estud" component={RegistroEstudianteScreen} />
-        <Tab.Screen name="reg. nota" component={RegistroNotaScreen} />
+        <Tab.Screen name="Consulta" component={ConsultaScreen} />
+        <Tab.Screen name="Reg. Estud" component={RegistroEstudianteScreen} />
+        <Tab.Screen name="Reg. Nota" component={RegistroNotaScreen} />
       </Tab.Navigator>
     </NavigationContainer>
   );
